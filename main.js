@@ -67,7 +67,7 @@ function Card(value, suite) {
 }
 
 function Player({ name, deck = [], isTurn = false, cardCount = null } = {}) {
-        this.name = name,
+    this.name = name,
         this.deck = deck,
         this.isTurn = isTurn,
         this.cardCount = cardCount
@@ -102,28 +102,56 @@ function Deck() {
         return this.deck;
     }
     Deck.prototype.shuffleAndDeal = function (player1, player2) {
+        let cardCount = 52;
         while (this.deck.length > 0) {
-            let index = Math.floor(Math.random() * 52)
-            console.log(player1.deck)
-            if (player1.Deck.length > player2.Deck.length) {
-                player2.Deck.push(this.deck[index])
+            let index = Math.floor(Math.random() * cardCount)
+            if (player1.deck.length > player2.deck.length) {
+                player2.deck.push(this.deck[index])
                 this.deck.splice(index, 1);
-            } else if (player1.Deck.length < player2.Deck.length) {
-                player1.Deck.push(this.deck[index])
+            } else if (player1.deck.length < player2.deck.length) {
+                player1.deck.push(this.deck[index])
                 this.deck.splice(index, 1);
             } else {
-                player1.Deck.push(this.deck[index])
+                player1.deck.push(this.deck[index])
                 this.deck.splice(index, 1);
             }
+            cardCount--;
         }
     }
 }
 
 
-const player1 = new Player({name: "Garth"});
-const player2 = new Player({name: "Carlsen"});
+const player1 = new Player({ name: "Garth" });
+const player2 = new Player({ name: "Carlsen" });
 let mainDeck = new Deck();
 console.log(mainDeck.buildDeck());
 console.log(mainDeck.shuffleAndDeal(player1, player2));
 
 
+
+
+
+let count = 0;
+for (let i = 0; i < player1.deck.length; i++) {
+
+    if (player1.deck[i] === undefined) {
+        continue;
+    } else {
+        count++;
+    }
+}
+
+
+
+count = 0
+for (let i = 0; i < player1.deck.length; i++) {
+
+    if (player1.deck[i] === undefined) {
+        continue;
+    } else {
+        count++;
+    }
+}
+
+console.log(player1.deck)
+console.log(player2.deck)

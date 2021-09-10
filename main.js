@@ -8,22 +8,24 @@ function Card(value, suite) {
 }
 
 function Player({ name, deck = [], isTurn = false, cardCount = null } = {}) {
-    this.name = name,
-    this.deck = deck,
-    this.isTurn = isTurn,
-    this.cardCount = deck.length
+    this.name = name;
+    this.deck = deck;
+    this.isTurn = isTurn;
+    this.cardCount = this.deck.length;
 
     Player.prototype.playCard = function () {
         let card;
-        console.log(this.deck.length)
+        console.log(deck.length)
         let index = Math.floor(Math.random() * cardCount)
         if (this.deck.length > 0 && isTurn === true) {
+            console.log(this.deck.length)
             card = this.deck[index];
-            this.deck.splice(index, 1);
+            this.deck.splice(index, 1); // Don't think it should get spliced here; probably get taken out of deck and added into other in playWar() function
+
         } else {
 
         }
-        console.log(this.deck.length);
+        console.log(deck.length);
         return this.deck[index];
     }
 }
@@ -106,8 +108,10 @@ for (let i = 0; i < player1.deck.length; i++) {
 
 
 function playWar() {
+    console.log(player1.deck.length);
     player1Card = player1.playCard();
     player2Card = player2.playCard();
+    
     console.log(player1Card, player2Card);
     console.log("p1 cc", player1.cardCount);
     console.log("p2 cc", player2.cardCount);
@@ -116,6 +120,8 @@ function playWar() {
         player1.deck.push(player2Card);
         console.log("p1 cc", player1.cardCount);
         console.log("p2 cc", player2.cardCount);
+        console.log(player1.deck.length)
+        console.log(player2.deck)
     }
 }
 

@@ -89,10 +89,14 @@ function playWar() {
     console.log("player2", player2Card);
     if (player1Card.value > player2Card.value) {
         console.log("Player 1 wins");
+        console.log(player1.deck.length);
+        player1.deck.push(player1Card);
         player1.deck.push(player2Card);
+        console.log(player1.deck.length);
 
     } else if (player2Card.value > player1Card.value) {
         console.log("Player 2 wins");
+        player2.deck.push(player2Card);
         player2.deck.push(player1Card);
 
     } else {
@@ -121,3 +125,7 @@ mainDeck.shuffleAndDeal(player1, player2);
 while (gameOn) {
     playWar();
 }
+
+
+
+// Instead of random function in playCard(), it needs to be just push, shift, etc; simulates real life more

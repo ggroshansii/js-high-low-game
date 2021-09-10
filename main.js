@@ -4,7 +4,12 @@
 
 // let playerOneCardsInPlay = [];
 // let playerTwoCardsInPlay = [];
+
 let gameOn = true;
+let tieRound = false;
+let tieRoundPotOfCards = [];
+
+
 
 function Card(value, suite) {
     this.value = value,
@@ -23,20 +28,26 @@ function Player({ name, deck = [] } = {}) {
 
     Player.prototype.playCard = function () {
         let card;
-        let currentCardIndex;
-        if (this.deck.length > 0 && gameOn) {
+        if (this.cardCount > 0) {
             card = this.deck.shift();
-        } else {
-            gameOver();
+            return card;
+        } 
+    }
+
+    Player.prototype.tieRoundAnte = function () {
+        for (let i = 0; i < 3; i++) {
+            console.log("ante", this.deck[i]);
+            tieRoundPotOfCards.push(this.deck[i])
         }
-        return card;
     }
 }
 
 function Deck() {
     this.deck = [],
-        this.suites = ['clubs', 'diamonds', 'hearts', 'spades'];
-    this.buildDeck = function () {
+    this.suites = ['clubs', 'diamonds', 'hearts', 'spades'];
+}
+
+    Deck.prototype.buildDeck = function () {
         if (this.deck.length === 0) {
             for (let suite of this.suites) {
                 for (let i = 2; i <= 14; i++) {
@@ -61,6 +72,7 @@ function Deck() {
         }
         return this.deck;
     }
+    
     Deck.prototype.shuffleAndDeal = function (player1, player2) {
         let mainDeckCount = 52;
         while (mainDeckCount > 0) {
@@ -75,19 +87,27 @@ function Deck() {
             mainDeckCount--;
         }
     }
+
+function Game() {
+
 }
 
-function playWar() {
+Game.prototype.playWar = function() {
+
     player1Card = player1.playCard();
     player2Card = player2.playCard();
-
-    console.log("player1" , player1Card, player1.cardCount);
+    console.log(player1Card);
+    console.log(player2Card);
+    console.log("player1", player1Card, player1.cardCount);
     console.log("player2", player2Card, player2.cardCount);
+    if (!player1.cardCount || !player2.cardCount) {
+        return gameOver();
+    }
+
     if (player1Card.value > player2Card.value) {
         console.log("Player 1 wins");
         player1.deck.push(player1Card);
         player1.deck.push(player2Card);
-
 
     } else if (player2Card.value > player1Card.value) {
         console.log("Player 2 wins");
@@ -95,33 +115,70 @@ function playWar() {
         player2.deck.push(player1Card);
 
     } else {
+        tieRound = true;
         console.log('tie');
-        player1.deck.push(player1Card);
-        player2.deck.push(player2Card);
+        tieRoundPotOfCards.push(player1Card);
+        tieRoundPotOfCards.push(player2Card);
+        tie();
+
     }
 }
-
-
-
 
 
 function gameOver() {
     console.log("Game Over");
     gameOn = false;
+
 }
 //while loop with playWar() inside until gameOver = false = true;
 
+// function tie() {
+//     while (tieRound) {
+//         player1.tieRoundAnte();
+//         player2.tieRoundAnte();
 
+//         let tieBreakerP1 = player1.playCard();
+//         let tieBreakerP2 = player2.playCard();
+
+//         console.log(tieRoundPotOfCards);
+//         if (tieBreakerP1.value > tieBreakerP2.value) {
+//             tieRoundPotOfCards.forEach(element => {
+//                 player1.deck.push(element);
+//             })
+//             player1.deck.push(tieBreakerP1, tieBreakerP2); // adding the tieBreaker card too 
+//             tieRound = false;
+//             tieRoundPotOfCards = [];
+//         }
+//         else if (tieBreakerP1.value < tieBreakerP2.value) {
+//             tieRoundPotOfCards.forEach(element => {
+//                 player2.deck.push(element);
+//             })
+//             player2.deck.push(tieBreakerP1, tieBreakerP2);
+//             tieRound = false;
+//             tieRoundPotOfCards = [];
+//         }
+//         else {
+//             tieRoundPotOfCards.push(tieBreakerP1);
+//             tieRoundPotOfCards.push(tieBreakerP2);
+//         }
+//     }
+// }
 
 const player1 = new Player({ name: "Garth", isTurn: true });
 const player2 = new Player({ name: "Carlsen", isTurn: false });
 let mainDeck = new Deck();
 mainDeck.buildDeck();
 mainDeck.shuffleAndDeal(player1, player2);
+const game1 = new Game()
+
+
 
 while (gameOn) {
-    playWar();
+    console.log("while Loop", gameOn)
+    game1.playWar();
 }
+
+
 
 
 

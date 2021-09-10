@@ -36,8 +36,8 @@ function Player({ name, deck = [] } = {}) {
 
     Player.prototype.tieRoundAnte = function () {
         for (let i = 0; i < 3; i++) {
-            console.log("ante", this.deck[i]);
-            tieRoundPotOfCards.push(this.deck[i])
+            let currentAnteCard = this.deck.shift();
+            tieRoundPotOfCards.push(currentAnteCard);
         }
     }
 }
@@ -101,7 +101,7 @@ Game.prototype.playWar = function() {
     console.log("player1", player1Card, player1.cardCount);
     console.log("player2", player2Card, player2.cardCount);
     if (!player1.cardCount || !player2.cardCount) {
-        return gameOver();
+        return this.gameOver();
     }
 
     if (player1Card.value > player2Card.value) {
@@ -119,50 +119,62 @@ Game.prototype.playWar = function() {
         console.log('tie');
         tieRoundPotOfCards.push(player1Card);
         tieRoundPotOfCards.push(player2Card);
-        tie();
+        this.tie();
 
     }
 }
 
 
-function gameOver() {
+
+//while loop with playWar() inside until gameOver = false = true;
+
+Game.prototype.tie = function() {
+    while (tieRound) {
+        player1.tieRoundAnte();
+        player2.tieRoundAnte();
+
+        if (!player1.cardCount || !player2.cardCount) {
+            return this.gameOver();
+        }
+
+        let tieBreakerP1 = player1.playCard();
+        let tieBreakerP2 = player2.playCard();
+
+        console.log(tieRoundPotOfCards);
+        if (tieBreakerP1.value > tieBreakerP2.value) {
+            console.log("p1-tie-card", tieBreakerP1, "p2-tie-card", tieBreakerP2);
+            console.log('player 1 has won the tiebreaker')
+            tieRoundPotOfCards.forEach(element => {
+                player1.deck.push(element);
+            })
+            player1.deck.push(tieBreakerP1, tieBreakerP2); // adding the tieBreaker card too 
+            tieRound = false;
+            tieRoundPotOfCards = [];
+        }
+        else if (tieBreakerP1.value < tieBreakerP2.value) {
+            console.log("p1-tie-card", tieBreakerP1, "p2-tie-card", tieBreakerP2);
+            console.log('player 2 has won the tiebreaker')
+            tieRoundPotOfCards.forEach(element => {
+                player2.deck.push(element);
+            })
+            player2.deck.push(tieBreakerP1, tieBreakerP2);
+            tieRound = false;
+            tieRoundPotOfCards = [];
+        }
+        else {
+            console.log("p1-tie-card", tieBreakerP1, "p2-tie-card", tieBreakerP2);
+            console.log('ANOTHER TIE')
+            tieRoundPotOfCards.push(tieBreakerP1);
+            tieRoundPotOfCards.push(tieBreakerP2);
+        }
+    }
+}
+
+Game.prototype.gameOver = function() {
     console.log("Game Over");
     gameOn = false;
 
 }
-//while loop with playWar() inside until gameOver = false = true;
-
-// function tie() {
-//     while (tieRound) {
-//         player1.tieRoundAnte();
-//         player2.tieRoundAnte();
-
-//         let tieBreakerP1 = player1.playCard();
-//         let tieBreakerP2 = player2.playCard();
-
-//         console.log(tieRoundPotOfCards);
-//         if (tieBreakerP1.value > tieBreakerP2.value) {
-//             tieRoundPotOfCards.forEach(element => {
-//                 player1.deck.push(element);
-//             })
-//             player1.deck.push(tieBreakerP1, tieBreakerP2); // adding the tieBreaker card too 
-//             tieRound = false;
-//             tieRoundPotOfCards = [];
-//         }
-//         else if (tieBreakerP1.value < tieBreakerP2.value) {
-//             tieRoundPotOfCards.forEach(element => {
-//                 player2.deck.push(element);
-//             })
-//             player2.deck.push(tieBreakerP1, tieBreakerP2);
-//             tieRound = false;
-//             tieRoundPotOfCards = [];
-//         }
-//         else {
-//             tieRoundPotOfCards.push(tieBreakerP1);
-//             tieRoundPotOfCards.push(tieBreakerP2);
-//         }
-//     }
-// }
 
 const player1 = new Player({ name: "Garth", isTurn: true });
 const player2 = new Player({ name: "Carlsen", isTurn: false });

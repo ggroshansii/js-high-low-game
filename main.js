@@ -2,8 +2,8 @@
 // function StartGame () {
 // }
 
-let playerOneCardsInPlay = [];
-let playerTwoCardsInPlay = [];
+// let playerOneCardsInPlay = [];
+// let playerTwoCardsInPlay = [];
 let gameOn = true;
 
 function Card(value, suite) {
@@ -11,10 +11,9 @@ function Card(value, suite) {
         this.suite = suite
 }
 
-function Player({ name, deck = [], isTurn = false, cardCount = null } = {}) {
+function Player({ name, deck = [] } = {}) {
     this.name = name;
     this.deck = deck;
-    this.isTurn = isTurn;
 
     Object.defineProperty(this, 'cardCount', {
         get() {
@@ -25,11 +24,8 @@ function Player({ name, deck = [], isTurn = false, cardCount = null } = {}) {
     Player.prototype.playCard = function () {
         let card;
         let currentCardIndex;
-        currentCardIndex = Math.floor(Math.random() * this.cardCount)
-        console.log("CARD COUNT", this.cardCount, this.name);
-        if (this.deck.length > 0) {
-            card = this.deck[currentCardIndex];
-            this.deck.splice(currentCardIndex, 1);
+        if (this.deck.length > 0 && gameOn) {
+            card = this.deck.shift();
         } else {
             gameOver();
         }
@@ -85,14 +81,13 @@ function playWar() {
     player1Card = player1.playCard();
     player2Card = player2.playCard();
 
-    console.log("player1" , player1Card);
-    console.log("player2", player2Card);
+    console.log("player1" , player1Card, player1.cardCount);
+    console.log("player2", player2Card, player2.cardCount);
     if (player1Card.value > player2Card.value) {
         console.log("Player 1 wins");
-        console.log(player1.deck.length);
         player1.deck.push(player1Card);
         player1.deck.push(player2Card);
-        console.log(player1.deck.length);
+
 
     } else if (player2Card.value > player1Card.value) {
         console.log("Player 2 wins");
@@ -101,6 +96,8 @@ function playWar() {
 
     } else {
         console.log('tie');
+        player1.deck.push(player1Card);
+        player2.deck.push(player2Card);
     }
 }
 
@@ -110,7 +107,7 @@ function playWar() {
 
 function gameOver() {
     console.log("Game Over");
-    gameOn = true;
+    gameOn = false;
 }
 //while loop with playWar() inside until gameOver = false = true;
 

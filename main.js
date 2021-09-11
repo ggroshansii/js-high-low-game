@@ -67,46 +67,53 @@ function Deck() {
         return this.deck;
     }
     
-    Deck.prototype.shuffleAndDeal = function (player1, player2) {
-        let mainDeckCount = 52;
-        while (mainDeckCount > 0) {
-            let index = Math.floor(Math.random() * mainDeckCount)
-            if (player1.cardCount > player2.cardCount) {
-                player2.deck.push(this.deck[index])
-                this.deck.splice(index, 1);
-            } else {
-                player1.deck.push(this.deck[index])
-                this.deck.splice(index, 1);
-            }
-            mainDeckCount--;
-        }
-    }
 
-function Game({ name } = {}) {
-    this.name = name
+
+function Game({ players, mainDeck } = {}) {
+    this.players = [new Player({ name: "Garth"}), new Player({ name: "Carlsen"})];
+    this.mainDeck = new Deck();
+}
+
+Game.prototype.shuffleAndDeal = function () {
+    let mainDeckCount = 52;
+    while (mainDeckCount > 0) {
+        let index = Math.floor(Math.random() * mainDeckCount)
+        if (this.players[0].cardCount > this.players[1].cardCount) {
+            this.players[1].deck.push(this.mainDeck.deck[index])
+            this.mainDeck.deck.splice(index, 1);
+        } else {
+            this.players[0].deck.push(this.mainDeck.deck[index])
+            console.log(this.mainDeck);
+            this.mainDeck.deck.splice(index, 1);
+        }
+        mainDeckCount--;
+    }
 }
 
 Game.prototype.playWar = function() {
-
-    player1Card = player1.playCard();
-    player2Card = player2.playCard();
+    if (!this.players[0].cardCount && !this.players[1].cardCount) {
+        this.mainDeck.buildDeck();
+        this.shuffleAndDeal(this.players[0], this.players[1]);
+    }
+    player1Card = this.players[0].playCard();
+    player2Card = this.players[1].playCard();
     console.log(player1Card);
     console.log(player2Card);
-    console.log("player1", player1Card, player1.cardCount);
-    console.log("player2", player2Card, player2.cardCount);
-    if (!player1.cardCount || !player2.cardCount) {
+    console.log("player1", player1Card, this.players[0].cardCount);
+    console.log("player2", player2Card, this.players[1].cardCount);
+    if (!this.players[0].cardCount || !this.players[1].cardCount) {
         return this.gameOver();
     }
 
     if (player1Card.value > player2Card.value) {
         console.log("Player 1 wins");
-        player1.deck.push(player1Card);
-        player1.deck.push(player2Card);
+        this.players[0].deck.push(player1Card);
+        this.players[0].deck.push(player2Card);
 
     } else if (player2Card.value > player1Card.value) {
         console.log("Player 2 wins");
-        player2.deck.push(player2Card);
-        player2.deck.push(player1Card);
+        this.players[1].deck.push(player2Card);
+        this.players[1].deck.push(player1Card);
 
     } else {
         tieRound = true;
@@ -122,24 +129,24 @@ Game.prototype.playWar = function() {
 
 Game.prototype.tie = function() {
     while (tieRound) {
-        player1.tieRoundAnte();
-        player2.tieRoundAnte();
+        this.players[0].tieRoundAnte();
+        this.players[1].tieRoundAnte();
 
-        if (!player1.cardCount || !player2.cardCount) {
+        if (!this.players[0].cardCount || !this.players[1].cardCount) {
             return this.gameOver();
         }
 
-        let tieBreakerP1 = player1.playCard();
-        let tieBreakerP2 = player2.playCard();
+        let tieBreakerP1 = this.players[0].playCard();
+        let tieBreakerP2 = this.players[1].playCard();
 
         console.log(tieRoundPotOfCards);
         if (tieBreakerP1.value > tieBreakerP2.value) {
             console.log("p1-tie-card", tieBreakerP1, "p2-tie-card", tieBreakerP2);
             console.log('player 1 has won the tiebreaker')
             tieRoundPotOfCards.forEach(element => {
-                player1.deck.push(element);
+                this.players[0].deck.push(element);
             })
-            player1.deck.push(tieBreakerP1, tieBreakerP2); // adding the tieBreaker card too 
+            this.players[0].deck.push(tieBreakerP1, tieBreakerP2); // adding the tieBreaker card too 
             tieRound = false;
             tieRoundPotOfCards = [];
         }
@@ -147,9 +154,9 @@ Game.prototype.tie = function() {
             console.log("p1-tie-card", tieBreakerP1, "p2-tie-card", tieBreakerP2);
             console.log('player 2 has won the tiebreaker')
             tieRoundPotOfCards.forEach(element => {
-                player2.deck.push(element);
+                this.players[1].deck.push(element);
             })
-            player2.deck.push(tieBreakerP1, tieBreakerP2);
+            this.players[1].deck.push(tieBreakerP1, tieBreakerP2);
             tieRound = false;
             tieRoundPotOfCards = [];
         }
@@ -168,12 +175,12 @@ Game.prototype.gameOver = function() {
 
 }
 
-// Game.prototype.startGame = function() {
-const player1 = new Player({ name: "Garth", isTurn: true });
-const player2 = new Player({ name: "Carlsen", isTurn: false });
-let mainDeck = new Deck();
-mainDeck.buildDeck();
-mainDeck.shuffleAndDeal(player1, player2);
+
+// const player1 = new Player({ name: "Garth"});
+// const player2 = new Player({ name: "Carlsen"});
+// let mainDeck = new Deck();
+// mainDeck.buildDeck();
+// mainDeck.shuffleAndDeal(player1, player2);
 
     
 

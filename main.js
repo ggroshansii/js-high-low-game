@@ -1,15 +1,9 @@
 
-// function StartGame () {
-// }
-
-// let playerOneCardsInPlay = [];
-// let playerTwoCardsInPlay = [];
+const drawBtn = document.querySelector(".btn");
 
 let gameOn = true;
 let tieRound = false;
 let tieRoundPotOfCards = [];
-
-
 
 function Card(value, suite) {
     this.value = value,
@@ -88,8 +82,8 @@ function Deck() {
         }
     }
 
-function Game() {
-
+function Game({ name } = {}) {
+    this.name = name
 }
 
 Game.prototype.playWar = function() {
@@ -123,8 +117,6 @@ Game.prototype.playWar = function() {
 
     }
 }
-
-
 
 //while loop with playWar() inside until gameOver = false = true;
 
@@ -176,22 +168,25 @@ Game.prototype.gameOver = function() {
 
 }
 
+// Game.prototype.startGame = function() {
 const player1 = new Player({ name: "Garth", isTurn: true });
 const player2 = new Player({ name: "Carlsen", isTurn: false });
 let mainDeck = new Deck();
 mainDeck.buildDeck();
 mainDeck.shuffleAndDeal(player1, player2);
-const game1 = new Game()
+
+    
+
+const game = new Game()
 
 
 
-while (gameOn) {
-    console.log("while Loop", gameOn)
-    game1.playWar();
-}
+// while (gameOn) {
+//     console.log("while Loop", gameOn)
+//     game.playWar();
+// }
 
 
-
-
-
-// Instead of random function in playCard(), it needs to be just push, shift, etc; simulates real life more
+drawBtn.addEventListener('click', event => {
+    game.playWar();
+})

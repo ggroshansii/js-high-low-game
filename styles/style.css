@@ -1,0 +1,21 @@
+
+.container {
+
+    border: 1px solid red;
+    height: 25rem;
+    width: 100%;
+}
+
+button {
+    height: 5rem;
+    width: 10rem;
+}
+
+.left-deck, .right-deck {
+    border: 1px solid purple;
+    width: 4rem;
+}
+
+div{
+    width: 100%;
+}

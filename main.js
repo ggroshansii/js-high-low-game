@@ -3,6 +3,8 @@ const playerCardText = document.querySelector(".player-card-text");
 const computerCardText = document.querySelector(".computer-card-text");
 const playerCardCount = document.querySelector(".player-card-count");
 const computerCardCount = document.querySelector(".computer-card-count");
+const wholeDocument = document.querySelector("body");
+const images = document.querySelectorAll('img');
 
 let gameOn = true;
 let tieRound = false;
@@ -204,6 +206,7 @@ Game.prototype.tie = function () {
 Game.prototype.gameOver = function () {
     console.log("Game Over");
     gameOn = false;
+    gameOverDesign();
 };
 
 drawBtn.addEventListener("click", (event) => {
@@ -239,6 +242,15 @@ function toggleColor(player1, player2) {
 function updateCardCount(player1, player2) {
     playerCardCount.textContent = `Card Count: ${player1.cardCount}`;
     computerCardCount.textContent = `Card Count: ${player2.cardCount}`;
+}
+
+function gameOverDesign() {
+    drawBtn.classList.remove("btn-outline-primary");
+    drawBtn.classList.add("btn-outline-danger");
+    wholeDocument.classList.add("red");
+    images[0].setAttribute('src', 'https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-1_1024x1024.png?v=1535755695');
+    images[1].setAttribute('src', 'https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-1_1024x1024.png?v=1535755695');
+
 }
 
 

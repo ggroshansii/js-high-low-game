@@ -233,8 +233,8 @@ function toggleColor(player1, player2) {
 
 
 function updateCardCount(player1, player2) {
-    playerCardCount.textContent = `Card Count: ${player1.cardCount}`;
-    computerCardCount.textContent = `Card Count: ${player2.cardCount}`;
+    playerCardCount.textContent = `${player1.cardCount}`;
+    computerCardCount.textContent = `${player2.cardCount}`;
 }
 
 function gameOverDesign() {

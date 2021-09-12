@@ -1,9 +1,9 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 .container {
-    
     border: 1px solid red;
-    height: 25rem;
+    height: 50rem;
     margin: auto;
 }
 
@@ -13,6 +13,7 @@ button {
 }
 
 .left-deck, .right-deck {
+    margin: auto;
     border: 1px solid purple;
     width: 20rem
 }
@@ -42,4 +43,27 @@ h1 {
 
 h2 {
     font-weight: 300;
+}
+
+.first-row {
+    height: 30rem;
+    border: 5px solid green;
+}
+
+.second-row {
+    border: 1px solid lightblue;
+}
+
+.title-row {
+
+    height: 10rem;
+    text-align: center;
+}
+
+.title-row h1 {
+    padding-top: 2rem;
+    font-family: 'Press Start 2P', cursive;
+   /* font-family: 'Odibee Sans', cursive; */
+    font-weight: 900;
+    font-size: 3.5rem;
 }

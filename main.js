@@ -107,6 +107,8 @@ Game.prototype.playWar = function () {
     const player2 = this.players[1];
     let player1Card = this.players[0].playCard();
     let player2Card = this.players[1].playCard();
+    console.log(player1Card);
+    console.log(player2Card);
 
     if (!this.players[0].cardCount || !this.players[1].cardCount) {
         return this.gameOver();
@@ -136,7 +138,8 @@ Game.prototype.playWar = function () {
 
         toggleColor(player1Card, player2Card);
         updateCardCount(player1, player2);
-
+        console.log(player1Card);
+        console.log(player2Card);
         this.tie();
     }
 };
@@ -145,6 +148,9 @@ Game.prototype.playWar = function () {
 
 Game.prototype.tie = function () {
     while (tieRound) {
+
+        const player1 = this.players[0];
+        const player2 = this.players[1];
         this.players[0].tieRoundAnte();
         this.players[1].tieRoundAnte();
 
@@ -156,30 +162,41 @@ Game.prototype.tie = function () {
         let tieBreakerP2 = this.players[1].playCard();
 
         console.log(tieRoundPotOfCards);
+
         if (tieBreakerP1.value > tieBreakerP2.value) {
             tieRoundPotOfCards.forEach((element) => {
                 this.players[0].deck.push(element);
             });
+
+            console.log("Player one wins tiebreaker")
             this.players[0].deck.push(tieBreakerP1, tieBreakerP2); // adding the tieBreaker card too
             tieRound = false;
             tieRoundPotOfCards = [];
 
-            toggleColor(tieBreakerP1, tieBreakerP2);
+            //toggleColor(tieBreakerP1, tieBreakerP2);
+            updateCardCount(player1, player2);
 
         } else if (tieBreakerP1.value < tieBreakerP2.value) {
             tieRoundPotOfCards.forEach((element) => {
                 this.players[1].deck.push(element);
             });
+
+            console.log("Player two wins tiebreaker")
             this.players[1].deck.push(tieBreakerP1, tieBreakerP2);
             tieRound = false;
             tieRoundPotOfCards = [];
-            toggleColor(tieBreakerP1, tieBreakerP2);
+            //toggleColor(tieBreakerP1, tieBreakerP2);
+            updateCardCount(player1, player2);
 
         } else {
+
+            console.log("Another tie!!")
+
             tieRoundPotOfCards.push(tieBreakerP1);
             tieRoundPotOfCards.push(tieBreakerP2);
 
             toggleColor(tieBreakerP1, tieBreakerP2);
+            updateCardCount(player1, player2);
         }
     }
 };
@@ -192,6 +209,8 @@ Game.prototype.gameOver = function () {
 drawBtn.addEventListener("click", (event) => {
     game.playWar();
 });
+
+
 
 function toggleColor(player1, player2) {
     console.log("fired");
@@ -215,9 +234,13 @@ function toggleColor(player1, player2) {
     computerCardText.innerHTML = `${player2.value} of ${player2.suite}`;
 }
 
+
+
 function updateCardCount(player1, player2) {
     playerCardCount.textContent = `Card Count: ${player1.cardCount}`;
     computerCardCount.textContent = `Card Count: ${player2.cardCount}`;
 }
+
+
 
 const game = new Game();

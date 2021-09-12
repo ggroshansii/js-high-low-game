@@ -16,9 +16,9 @@ body {
 .btn {
     height: 5rem;
     width: 12rem;
-    border-width: 0.2rem;
-    margin-bottom: 15rem;
+    border-width: 0.2rem;;
     font-size: 1.4rem;
+    margin-top: 3rem;
 }
 
 .left-deck, .right-deck {
@@ -33,7 +33,7 @@ body {
 .card-selections {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
     margin-top: 2rem;
 }
@@ -52,7 +52,7 @@ body {
 .middle-div {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     height: 100%;
 }
@@ -110,3 +110,17 @@ h2 {
     color: red;
 }
 
+.tie-pot-title {
+    margin-top: 3rem;
+}
+
+.tie-pot {
+    margin-top: 0.3rem;
+}
+
+.round-status {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 2.5rem;
+    color: darkslateblue;
+}

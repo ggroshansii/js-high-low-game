@@ -6,6 +6,8 @@ const computerCardCount = document.querySelector(".computer-card-count");
 const wholeDocument = document.querySelector("body");
 const images = document.querySelectorAll('img');
 const title = document.querySelector('.title');
+const tiePot = document.querySelector('.tie-pot');
+const roundStatus = document.querySelector('.round-status');
 
 let tieRoundPotOfCards = [];
 
@@ -103,6 +105,8 @@ Game.prototype.playWar = function () {
 //
     console.log("STARTING CARD COUNT", "P1", this.players[0].cardCount, "P2", this.players[1].cardCount);
 
+    tiePot.textContent = tieRoundPotOfCards.length;
+
     if (!this.players[0].cardCount && !this.players[1].cardCount) {
         this.mainDeck.buildDeck();
         this.shuffleAndDeal(this.players[0], this.players[1]);
@@ -121,13 +125,17 @@ Game.prototype.playWar = function () {
 
         if (tieRoundPotOfCards.length > 0) {
             console.log("Player 1 wins tie", 'p1', player1Card, 'p2', player2Card);
+            roundStatus.textContent = `You won the tiebreaker! You have collected ${tieRoundPotOfCards.length} cards from the pot!`;
             tieRoundPotOfCards.forEach((element) => {
                 this.players[0].deck.push(element);
             });
             this.players[0].deck.push(player1Card, player2Card);
             tieRoundPotOfCards = [];
+            updateCardCount(player1, player2);
+            tiePot.textContent = tieRoundPotOfCards.length;
         } else {
             console.log("Player 1 wins");
+            roundStatus.textContent = "You won this round!";
             this.players[0].deck.push(player1Card);
             this.players[0].deck.push(player2Card);
         }
@@ -141,14 +149,19 @@ Game.prototype.playWar = function () {
 
         if (tieRoundPotOfCards.length > 0) {
             console.log("Player 2 wins tie", 'p1', player1Card, 'p2', player2Card);
+            roundStatus.textContent = `The computer won the tiebreaker and the ${tieRoundPotOfCards.length} cards from the pot.`;
             tieRoundPotOfCards.forEach((element) => {
                 this.players[0].deck.push(element);
             });
 
             this.players[1].deck.push(player1Card, player2Card);
             tieRoundPotOfCards = [];
+
+            updateCardCount(player1, player2);
+            tiePot.textContent = tieRoundPotOfCards.length;
         } else {
             console.log("Player 2 wins");
+            roundStatus.textContent = "The computer won this round";
             this.players[1].deck.push(player2Card);
             this.players[1].deck.push(player1Card);
         }
@@ -169,6 +182,7 @@ Game.prototype.playWar = function () {
 
         if (tieRoundPotOfCards.length > 0) {
             console.log("ANOTHER TIE");
+            roundStatus.innerHTML= "ITS ANOTHER TIE! <br> Put another three cards, including your current card into the pot";
             this.players[0].tieRoundAnte();
             this.players[1].tieRoundAnte();
     
@@ -180,6 +194,7 @@ Game.prototype.playWar = function () {
             tieRoundPotOfCards.push(player2Card);
         } else {
             console.log("tie");
+            roundStatus.innerHTML = "TIE! <br> Put three cards, including your current card into the pot";
             tieRoundPotOfCards.push(player1Card);
             tieRoundPotOfCards.push(player2Card);
             this.players[0].tieRoundAnte();
@@ -188,6 +203,7 @@ Game.prototype.playWar = function () {
 
         console.log("CARD COUNT", "P1", this.players[0].cardCount, "P2", this.players[1].cardCount);
         updateCardCount(player1, player2);
+        tiePot.textContent = tieRoundPotOfCards.length;
     }
 
 
@@ -230,7 +246,6 @@ function toggleColor(player1, player2) {
     playerCardText.innerHTML = `${player1.value} of ${player1.suite}`;
     computerCardText.innerHTML = `${player2.value} of ${player2.suite}`;
 }
-
 
 function updateCardCount(player1, player2) {
     playerCardCount.textContent = `${player1.cardCount}`;

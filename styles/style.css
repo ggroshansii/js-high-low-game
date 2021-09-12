@@ -1,33 +1,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
 
 body {
     background-image: url("http://cdn.shopify.com/s/files/1/0062/7892/products/7850-beigewood_5dfac83c-12c7-4923-b317-5613f0bceb17.png?v=1536860968");
     background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 2rem;
 }
 
 .container {
-    height: 50rem;
+    height: 100vh;
     margin: auto;
 }
 
 .btn {
     height: 5rem;
     width: 12rem;
-    border-width: 0.2rem;;
+    border-width: 0.2rem;
     font-size: 1.4rem;
     margin-top: 3rem;
 }
 
+.btn-outline-primary {
+    color:rgb(46, 39, 90);
+    border: 3px solid darkslateblue;
+}
+
+.btn-outline-primary:hover {
+    background-color: darkslateblue;
+    border: 3px solid darkslateblue;
+}
+
+.btn-outline-primary:focus {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    border-color: darkslateblue;
+    outline: 0 none;
+}
+
+.btn-outline-primary:active {
+    background-color: transparent;
+    border-color: darkslateblue;
+    box-shadow: none;
+}
+
+.btn-outline-primary:focus:active {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+
 .left-deck, .right-deck {
-    margin: auto;
     width: 20rem
 }
 
 .player-card, .computer-card {
     width: 14rem;
+}
+
+.player-card h1, .computer-card h1 {
+
 }
 
 .card-selections {
@@ -71,15 +101,21 @@ h1, h2 {
 
 h1 {
     font-size: 2.2rem;
+
 }
 
 h2 {
     font-size: 1.5rem;
     font-weight: 300;
+
+}
+
+h3 {
+
 }
 
 .first-row {
-    height: 35rem;
+    height: 50rem;
 
 }
 
@@ -88,12 +124,12 @@ h2 {
 }
 
 .title-row {
-    height: 7rem;
+    height: 9rem;
     text-align: center;
 }
 
 .title-row h1 {
-    padding-top: 2rem;
+    padding-top: 1rem;
     font-family: 'Press Start 2P', cursive;
    /* font-family: 'Odibee Sans', cursive; */
     font-weight: 900;
@@ -106,21 +142,25 @@ h2 {
     font-size: 2rem;
 }
 
-.red {
-    color: red;
-}
+
 
 .tie-pot-title {
+
     margin-top: 3rem;
 }
 
 .tie-pot {
+
     margin-top: 0.3rem;
 }
 
 .round-status {
-    margin-top: 2rem;
+    margin-top: 3rem;
     text-align: center;
     font-size: 2.5rem;
-    color: darkslateblue;
+
+}
+
+.red {
+    color: red;
 }

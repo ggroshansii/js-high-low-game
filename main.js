@@ -246,6 +246,7 @@ drawBtn.addEventListener("click", (event) => {
         game.playWar();
     } else {
         resetGame();
+        game.playWar();
     }
 
 });
@@ -286,18 +287,25 @@ function gameOverDesign() {
     images[0].setAttribute('src', 'https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-1_1024x1024.png?v=1535755695');
     images[1].setAttribute('src', 'https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-1_1024x1024.png?v=1535755695');
     title.textContent = "GAME OVER";
-    drawBtn.textContent = "RESET"
+    title.style.fontFamily = 'Creepster';
+    title.style.fontSize = "6rem";
+    title.style.color = "#C60D23";
+    drawBtn.textContent = "RESET";
 
 }
 
 function resetGame() {
-    title.textContent = "WAR CARD GAME";
     drawBtn.textContent = "Draw Cards";
     images[0].setAttribute('src', 'https://i.pinimg.com/originals/a4/77/8a/a4778a31909f959501cc180b8874d164.png');
     images[1].setAttribute('src', 'https://i.pinimg.com/originals/a4/77/8a/a4778a31909f959501cc180b8874d164.png');
     wholeDocument.classList.remove("red");
     drawBtn.classList.remove("btn-outline-danger");
     drawBtn.classList.add("btn-outline-primary");
+    title.textContent = "WAR CARD GAME";
+    title.style.fontFamily = '';
+    title.style.fontFamily = 'Press Start 2P';
+    title.style.fontSize = "3.5rem";
+    title.style.color = "darkslateblue";
     game = new Game();
 }
 
@@ -305,6 +313,8 @@ function resetGame() {
 let game = new Game();
 
 
+
+////////////////////////////////// TESTING PURPOSES ////////////////////////////////////
 let flag = true;
 while(flag) {
     game.playWar()

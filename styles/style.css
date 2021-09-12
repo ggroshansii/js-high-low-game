@@ -53,7 +53,7 @@ body {
 }
 
 .player-card, .computer-card {
-    width: 14rem;
+    width: 50%;
 }
 
 .player-card h1, .computer-card h1 {

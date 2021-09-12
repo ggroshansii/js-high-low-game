@@ -10,6 +10,7 @@ const tiePot = document.querySelector('.tie-pot');
 const roundStatus = document.querySelector('.round-status');
 
 let tieRoundPotOfCards = [];
+let gameOn = true;
 
 function Card(value, suite) {
     (this.value = value), (this.suite = suite);
@@ -34,9 +35,13 @@ function Player({ name, deck = [] } = {}) {
     };
 
     Player.prototype.tieRoundAnte = function () {
-        for (let i = 0; i < 3; i++) {
-            let currentAnteCard = this.deck.shift();
-            tieRoundPotOfCards.push(currentAnteCard);
+        if (this.cardCount > 3) {
+            for (let i = 0; i < 3; i++) {
+                let currentAnteCard = this.deck.shift();
+                tieRoundPotOfCards.push(currentAnteCard);
+            }
+        } else {
+            roundStatus.textContent = "Ran out of cards!!"
         }
     };
 }
@@ -79,8 +84,8 @@ Deck.prototype.buildDeck = function () {
 
 function Game({ players, mainDeck } = {}) {
     this.players = [
-        new Player({ name: "Garth" }),
-        new Player({ name: "Carlsen" }),
+        new Player({ name: "player1" }),
+        new Player({ name: "player2" }),
     ];
     this.mainDeck = new Deck();
 }
@@ -101,10 +106,7 @@ Game.prototype.shuffleAndDeal = function () {
 };
 
 Game.prototype.playWar = function () {
-
-//
-    console.log("STARTING CARD COUNT", "P1", this.players[0].cardCount, "P2", this.players[1].cardCount);
-
+    console.log("fired")
     tiePot.textContent = tieRoundPotOfCards.length;
 
     if (!this.players[0].cardCount && !this.players[1].cardCount) {
@@ -116,15 +118,18 @@ Game.prototype.playWar = function () {
     const player2 = this.players[1];
     let player1Card = this.players[0].playCard();
     let player2Card = this.players[1].playCard();
-    console.log(player1Card);
-    console.log(player2Card);
+
+    // if (player1.cardCount === 0 || player2.cardCount === 0) {
+    //     updateCardCount(player1, player2);
+    //     return gameOver(player1);
+    // }
 
     if (player1Card.value > player2Card.value) {
 
         toggleColor(player1Card, player2Card);
 
         if (tieRoundPotOfCards.length > 0) {
-            console.log("Player 1 wins tie", 'p1', player1Card, 'p2', player2Card);
+            console.log('p1 wins tiebreaker');
             roundStatus.textContent = `You won the tiebreaker! You have collected ${tieRoundPotOfCards.length} cards from the pot!`;
             tieRoundPotOfCards.forEach((element) => {
                 this.players[0].deck.push(element);
@@ -134,13 +139,11 @@ Game.prototype.playWar = function () {
             updateCardCount(player1, player2);
             tiePot.textContent = tieRoundPotOfCards.length;
         } else {
-            console.log("Player 1 wins");
+            console.log("p1 wins this round");
             roundStatus.textContent = "You won this round!";
             this.players[0].deck.push(player1Card);
             this.players[0].deck.push(player2Card);
         }
-
-        console.log("CARD COUNT", "P1", this.players[0].cardCount, "P2", this.players[1].cardCount);
         updateCardCount(player1, player2);
 
     } else if (player2Card.value > player1Card.value) {
@@ -148,85 +151,107 @@ Game.prototype.playWar = function () {
         toggleColor(player1Card, player2Card);
 
         if (tieRoundPotOfCards.length > 0) {
-            console.log("Player 2 wins tie", 'p1', player1Card, 'p2', player2Card);
+            console.log("p2 wins tiebreaker")
             roundStatus.textContent = `The computer won the tiebreaker and the ${tieRoundPotOfCards.length} cards from the pot.`;
             tieRoundPotOfCards.forEach((element) => {
-                this.players[0].deck.push(element);
+                this.players[1].deck.push(element);
             });
-
             this.players[1].deck.push(player1Card, player2Card);
             tieRoundPotOfCards = [];
-
             updateCardCount(player1, player2);
             tiePot.textContent = tieRoundPotOfCards.length;
         } else {
-            console.log("Player 2 wins");
+            console.log("p2 wins this round")
             roundStatus.textContent = "The computer won this round";
             this.players[1].deck.push(player2Card);
             this.players[1].deck.push(player1Card);
         }
-
-        console.log("CARD COUNT", "P1", this.players[0].cardCount, "P2", this.players[1].cardCount);
         updateCardCount(player1, player2);
 
     } else {
 
         toggleColor(player1Card, player2Card);
 
-        console.log(player1Card);
-        console.log(player2Card);
-
         if (!this.players[0].cardCount || !this.players[1].cardCount) {
-            return this.gameOver();
+            if (this.players[0].cardCount) {
+                roundStatus.textContent = "The computer ran out of cards";
+            } else {
+                roundStatus.textContent = "You ran out of cards";
+            }
+            return gameOver(player1);
         }
 
         if (tieRoundPotOfCards.length > 0) {
-            console.log("ANOTHER TIE");
+            console.log('another tie')
             roundStatus.innerHTML= "ITS ANOTHER TIE! <br> Put another three cards, including your current card into the pot";
             this.players[0].tieRoundAnte();
             this.players[1].tieRoundAnte();
-    
-            if (!this.players[0].cardCount || !this.players[1].cardCount) {
-                return this.gameOver();
-            }
+            
+            // if (!this.players[0].cardCount || !this.players[1].cardCount) {
+            //     return this.gameOver();
+            // }
 
             tieRoundPotOfCards.push(player1Card);
             tieRoundPotOfCards.push(player2Card);
         } else {
-            console.log("tie");
+            console.log('tie')
             roundStatus.innerHTML = "TIE! <br> Put three cards, including your current card into the pot";
             tieRoundPotOfCards.push(player1Card);
             tieRoundPotOfCards.push(player2Card);
             this.players[0].tieRoundAnte();
             this.players[1].tieRoundAnte();
         }
-
-        console.log("CARD COUNT", "P1", this.players[0].cardCount, "P2", this.players[1].cardCount);
         updateCardCount(player1, player2);
         tiePot.textContent = tieRoundPotOfCards.length;
     }
 
+    console.log('p1', player1.cardCount, 'p2', player2.cardCount)
 
-    if (!this.players[0].cardCount || !this.players[1].cardCount) {
+
+    if (!player1.cardCount || !player2.cardCount) {
+        if (this.players[0].cardCount) {
+            roundStatus.textContent = "The computer ran out of cards";
+        } else {
+            roundStatus.textContent = "You ran out of cards";
+        }
         updateCardCount(player1, player2);
-        return this.gameOver();
+        return gameOver(player1);
     }
+
+    
+    // if (!this.players[0].cardCount || !this.players[1].cardCount) {
+    //     updateCardCount(player1, player2);
+    //     return gameOver(player1);
+    // }
 };
 
 
-Game.prototype.gameOver = function () {
-    console.log('GameOver');
-    gameOn = false;
+function gameOver(player1) {
+    //gameOn = false;
+    setTimeout(() => { 
+        if (player1.cardCount) {
+            roundStatus.textContent = "YOU WON THE GAME";
+        } else {
+            roundStatus.textContent = "You lost the game";
+        }
+     }, 2000);
+
+
     gameOverDesign();
 };
 
+
 drawBtn.addEventListener("click", (event) => {
-    game.playWar();
+    if(event.target.classList.contains("btn-outline-primary")) {
+        game.playWar();
+    } else {
+        resetGame();
+    }
+
 });
 
 
 function toggleColor(player1, player2) {
-    console.log("fired");
     if (
         player1.suite.includes("hearts") ||
         player1.suite.includes("diamonds")
@@ -247,10 +272,12 @@ function toggleColor(player1, player2) {
     computerCardText.innerHTML = `${player2.value} of ${player2.suite}`;
 }
 
+
 function updateCardCount(player1, player2) {
     playerCardCount.textContent = `${player1.cardCount}`;
     computerCardCount.textContent = `${player2.cardCount}`;
 }
+
 
 function gameOverDesign() {
     drawBtn.classList.remove("btn-outline-primary");
@@ -259,8 +286,31 @@ function gameOverDesign() {
     images[0].setAttribute('src', 'https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-1_1024x1024.png?v=1535755695');
     images[1].setAttribute('src', 'https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-1_1024x1024.png?v=1535755695');
     title.textContent = "GAME OVER";
+    drawBtn.textContent = "RESET"
 
 }
 
+function resetGame() {
+    title.textContent = "WAR CARD GAME";
+    drawBtn.textContent = "Draw Cards";
+    images[0].setAttribute('src', 'https://i.pinimg.com/originals/a4/77/8a/a4778a31909f959501cc180b8874d164.png');
+    images[1].setAttribute('src', 'https://i.pinimg.com/originals/a4/77/8a/a4778a31909f959501cc180b8874d164.png');
+    wholeDocument.classList.remove("red");
+    drawBtn.classList.remove("btn-outline-danger");
+    drawBtn.classList.add("btn-outline-primary");
+    game = new Game();
+}
 
-const game = new Game();
+
+let game = new Game();
+
+
+let flag = true;
+while(flag) {
+    game.playWar()
+    if (game.players[0].cardCount === 0 || game.players[1].cardCount === 0) {
+        flag = false;
+        console.log('final count p1', game.players[0].cardCount);
+        console.log('final count p2', game.players[1].cardCount);
+    }
+}

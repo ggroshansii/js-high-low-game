@@ -1,5 +1,7 @@
 
 const drawBtn = document.querySelector(".btn");
+const playerCardText = document.querySelector(".player-card-text");
+const computerCardText = document.querySelector(".computer-card-text")
 
 let gameOn = true;
 let tieRound = false;
@@ -38,7 +40,7 @@ function Player({ name, deck = [] } = {}) {
 
 function Deck() {
     this.deck = [],
-    this.suites = ['clubs', 'diamonds', 'hearts', 'spades'];
+    this.suites = ['clubs &clubs;', 'diamonds &diams;', 'hearts &hearts;', 'spades &spades;'];
 }
 
     Deck.prototype.buildDeck = function () {
@@ -83,7 +85,6 @@ Game.prototype.shuffleAndDeal = function () {
             this.mainDeck.deck.splice(index, 1);
         } else {
             this.players[0].deck.push(this.mainDeck.deck[index])
-            console.log(this.mainDeck);
             this.mainDeck.deck.splice(index, 1);
         }
         mainDeckCount--;
@@ -109,11 +110,16 @@ Game.prototype.playWar = function() {
         console.log("Player 1 wins");
         this.players[0].deck.push(player1Card);
         this.players[0].deck.push(player2Card);
+        playerCardText.innerHTML = `${player1Card.value} of ${player1Card.suite}`;
+        computerCardText.innerHTML = `${player2Card.value} of ${player2Card.suite}`;
+
 
     } else if (player2Card.value > player1Card.value) {
         console.log("Player 2 wins");
         this.players[1].deck.push(player2Card);
         this.players[1].deck.push(player1Card);
+        playerCardText.innerHTML= `${player1Card.value} of ${player1Card.suite}`;
+        computerCardText.innerHTML = `${player2Card.value} of ${player2Card.suite}`;
 
     } else {
         tieRound = true;

@@ -269,8 +269,8 @@ function toggleColor(player1, player2) {
     } else {
         computerCardText.classList.remove("red");
     }
-    playerCardText.innerHTML = `${player1.value} of ${player1.suite}`;
-    computerCardText.innerHTML = `${player2.value} of ${player2.suite}`;
+    playerCardText.innerHTML = `${convertNumIntoSuite(player1.value)} of ${player1.suite}`;
+    computerCardText.innerHTML = `${convertNumIntoSuite(player2.value)} of ${player2.suite}`;
 }
 
 
@@ -322,5 +322,20 @@ while(flag) {
         flag = false;
         console.log('final count p1', game.players[0].cardCount);
         console.log('final count p2', game.players[1].cardCount);
+    }
+}
+
+function convertNumIntoSuite(value) {
+    switch (value) {
+        case 11: 
+        return 'Jack';
+        case 12: 
+        return 'Queen';
+        case 13: 
+        return 'King';
+        case 14: 
+        return 'Ace';
+        default: 
+        return value;
     }
 }

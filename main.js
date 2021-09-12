@@ -5,6 +5,7 @@ const playerCardCount = document.querySelector(".player-card-count");
 const computerCardCount = document.querySelector(".computer-card-count");
 const wholeDocument = document.querySelector("body");
 const images = document.querySelectorAll('img');
+const title = document.querySelector('.title');
 
 let gameOn = true;
 let tieRound = false;
@@ -238,7 +239,6 @@ function toggleColor(player1, player2) {
 }
 
 
-
 function updateCardCount(player1, player2) {
     playerCardCount.textContent = `Card Count: ${player1.cardCount}`;
     computerCardCount.textContent = `Card Count: ${player2.cardCount}`;
@@ -250,6 +250,7 @@ function gameOverDesign() {
     wholeDocument.classList.add("red");
     images[0].setAttribute('src', 'https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-1_1024x1024.png?v=1535755695');
     images[1].setAttribute('src', 'https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-1_1024x1024.png?v=1535755695');
+    title.textContent = "GAME OVER";
 
 }
 

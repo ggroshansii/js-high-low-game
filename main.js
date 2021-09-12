@@ -7,8 +7,6 @@ const wholeDocument = document.querySelector("body");
 const images = document.querySelectorAll('img');
 const title = document.querySelector('.title');
 
-let gameOn = true;
-let tieRound = false;
 let tieRoundPotOfCards = [];
 
 function Card(value, suite) {
@@ -101,6 +99,10 @@ Game.prototype.shuffleAndDeal = function () {
 };
 
 Game.prototype.playWar = function () {
+
+//
+    console.log("STARTING CARD COUNT", "P1", this.players[0].cardCount, "P2", this.players[1].cardCount);
+
     if (!this.players[0].cardCount && !this.players[1].cardCount) {
         this.mainDeck.buildDeck();
         this.shuffleAndDeal(this.players[0], this.players[1]);
@@ -113,99 +115,91 @@ Game.prototype.playWar = function () {
     console.log(player1Card);
     console.log(player2Card);
 
-    if (!this.players[0].cardCount || !this.players[1].cardCount) {
-        return this.gameOver();
-    }
-
     if (player1Card.value > player2Card.value) {
-        console.log("Player 1 wins");
-        this.players[0].deck.push(player1Card);
-        this.players[0].deck.push(player2Card);
 
         toggleColor(player1Card, player2Card);
+
+        if (tieRoundPotOfCards.length > 0) {
+            console.log("Player 1 wins tie", 'p1', player1Card, 'p2', player2Card);
+            tieRoundPotOfCards.forEach((element) => {
+                this.players[0].deck.push(element);
+            });
+            this.players[0].deck.push(player1Card, player2Card);
+            tieRoundPotOfCards = [];
+        } else {
+            console.log("Player 1 wins");
+            this.players[0].deck.push(player1Card);
+            this.players[0].deck.push(player2Card);
+        }
+
+        console.log("CARD COUNT", "P1", this.players[0].cardCount, "P2", this.players[1].cardCount);
         updateCardCount(player1, player2);
 
     } else if (player2Card.value > player1Card.value) {
-        console.log("Player 2 wins");
-        this.players[1].deck.push(player2Card);
-        this.players[1].deck.push(player1Card);
 
         toggleColor(player1Card, player2Card);
+
+        if (tieRoundPotOfCards.length > 0) {
+            console.log("Player 2 wins tie", 'p1', player1Card, 'p2', player2Card);
+            tieRoundPotOfCards.forEach((element) => {
+                this.players[0].deck.push(element);
+            });
+
+            this.players[1].deck.push(player1Card, player2Card);
+            tieRoundPotOfCards = [];
+        } else {
+            console.log("Player 2 wins");
+            this.players[1].deck.push(player2Card);
+            this.players[1].deck.push(player1Card);
+        }
+
+        console.log("CARD COUNT", "P1", this.players[0].cardCount, "P2", this.players[1].cardCount);
         updateCardCount(player1, player2);
 
     } else {
-        tieRound = true;
-        console.log("tie");
-        tieRoundPotOfCards.push(player1Card);
-        tieRoundPotOfCards.push(player2Card);
 
         toggleColor(player1Card, player2Card);
-        updateCardCount(player1, player2);
+
         console.log(player1Card);
         console.log(player2Card);
-        this.tie();
-    }
-};
-
-//while loop with playWar() inside until gameOver = false = true;
-
-Game.prototype.tie = function () {
-    while (tieRound) {
-
-        const player1 = this.players[0];
-        const player2 = this.players[1];
-        this.players[0].tieRoundAnte();
-        this.players[1].tieRoundAnte();
 
         if (!this.players[0].cardCount || !this.players[1].cardCount) {
             return this.gameOver();
         }
 
-        let tieBreakerP1 = this.players[0].playCard();
-        let tieBreakerP2 = this.players[1].playCard();
+        if (tieRoundPotOfCards.length > 0) {
+            console.log("ANOTHER TIE");
+            this.players[0].tieRoundAnte();
+            this.players[1].tieRoundAnte();
+    
+            if (!this.players[0].cardCount || !this.players[1].cardCount) {
+                return this.gameOver();
+            }
 
-        console.log(tieRoundPotOfCards);
-
-        if (tieBreakerP1.value > tieBreakerP2.value) {
-            tieRoundPotOfCards.forEach((element) => {
-                this.players[0].deck.push(element);
-            });
-
-            console.log("Player one wins tiebreaker")
-            this.players[0].deck.push(tieBreakerP1, tieBreakerP2); // adding the tieBreaker card too
-            tieRound = false;
-            tieRoundPotOfCards = [];
-
-            //toggleColor(tieBreakerP1, tieBreakerP2);
-            updateCardCount(player1, player2);
-
-        } else if (tieBreakerP1.value < tieBreakerP2.value) {
-            tieRoundPotOfCards.forEach((element) => {
-                this.players[1].deck.push(element);
-            });
-
-            console.log("Player two wins tiebreaker")
-            this.players[1].deck.push(tieBreakerP1, tieBreakerP2);
-            tieRound = false;
-            tieRoundPotOfCards = [];
-            //toggleColor(tieBreakerP1, tieBreakerP2);
-            updateCardCount(player1, player2);
-
+            tieRoundPotOfCards.push(player1Card);
+            tieRoundPotOfCards.push(player2Card);
         } else {
-
-            console.log("Another tie!!")
-
-            tieRoundPotOfCards.push(tieBreakerP1);
-            tieRoundPotOfCards.push(tieBreakerP2);
-
-            toggleColor(tieBreakerP1, tieBreakerP2);
-            updateCardCount(player1, player2);
+            console.log("tie");
+            tieRoundPotOfCards.push(player1Card);
+            tieRoundPotOfCards.push(player2Card);
+            this.players[0].tieRoundAnte();
+            this.players[1].tieRoundAnte();
         }
+
+        console.log("CARD COUNT", "P1", this.players[0].cardCount, "P2", this.players[1].cardCount);
+        updateCardCount(player1, player2);
+    }
+
+
+    if (!this.players[0].cardCount || !this.players[1].cardCount) {
+        updateCardCount(player1, player2);
+        return this.gameOver();
     }
 };
 
+
 Game.prototype.gameOver = function () {
-    console.log("Game Over");
+    console.log('GameOver');
     gameOn = false;
     gameOverDesign();
 };
@@ -213,7 +207,6 @@ Game.prototype.gameOver = function () {
 drawBtn.addEventListener("click", (event) => {
     game.playWar();
 });
-
 
 
 function toggleColor(player1, player2) {
@@ -253,7 +246,6 @@ function gameOverDesign() {
     title.textContent = "GAME OVER";
 
 }
-
 
 
 const game = new Game();

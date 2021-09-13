@@ -25,6 +25,7 @@ function Player({ name, deck = [] } = {}) {
             return this.deck.length;
         },
     });
+}
 
     Player.prototype.playCard = function () {
         let card;
@@ -44,7 +45,7 @@ function Player({ name, deck = [] } = {}) {
             roundStatus.textContent = "Ran out of cards!!"
         }
     };
-}
+
 
 function Deck() {
     (this.deck = []),
@@ -183,7 +184,7 @@ Game.prototype.playWar = function () {
 
         if (tieRoundPotOfCards.length > 0) {
             console.log('another tie')
-            roundStatus.innerHTML= "ITS ANOTHER TIE! <br> Put another three cards, including your current card into the pot";
+            roundStatus.innerHTML= "ITS ANOTHER <u>TIE!</u> <br> <small>Put another three cards + your current card into the pot</small>";
             this.players[0].tieRoundAnte();
             this.players[1].tieRoundAnte();
             
@@ -195,7 +196,7 @@ Game.prototype.playWar = function () {
             tieRoundPotOfCards.push(player2Card);
         } else {
             console.log('tie')
-            roundStatus.innerHTML = "TIE! <br> Put three cards, including your current card into the pot";
+            roundStatus.innerHTML = "<u>TIE!</u> <br> <small>Put three cards + your current card into the pot</small>";
             tieRoundPotOfCards.push(player1Card);
             tieRoundPotOfCards.push(player2Card);
             this.players[0].tieRoundAnte();
@@ -225,10 +226,10 @@ Game.prototype.playWar = function () {
     // }
 };
 
-
+let overallWinner; 
 function gameOver(player1) {
     //gameOn = false;
-    setTimeout(() => { 
+    overallWinner = setTimeout(() => { 
         if (player1.cardCount) {
             roundStatus.textContent = "YOU WON THE GAME";
         } else {
@@ -238,6 +239,7 @@ function gameOver(player1) {
 
 
     gameOverDesign();
+
 };
 
 
@@ -246,7 +248,6 @@ drawBtn.addEventListener("click", (event) => {
         game.playWar();
     } else {
         resetGame();
-        game.playWar();
     }
 
 });
@@ -284,6 +285,7 @@ function gameOverDesign() {
     drawBtn.classList.remove("btn-outline-primary");
     drawBtn.classList.add("btn-outline-danger");
     wholeDocument.classList.add("red");
+    roundStatus.classList.add("red");
     images[0].setAttribute('src', 'https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-1_1024x1024.png?v=1535755695');
     images[1].setAttribute('src', 'https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-1_1024x1024.png?v=1535755695');
     title.textContent = "GAME OVER";
@@ -301,28 +303,20 @@ function resetGame() {
     wholeDocument.classList.remove("red");
     drawBtn.classList.remove("btn-outline-danger");
     drawBtn.classList.add("btn-outline-primary");
+    roundStatus.classList.remove("red");
     title.textContent = "WAR CARD GAME";
     title.style.fontFamily = '';
     title.style.fontFamily = 'Press Start 2P';
     title.style.fontSize = "3.5rem";
     title.style.color = "darkslateblue";
+    game.players[0].cardCount = 0;
+    game.players[1].cardCount = 0;
+    console.log(game.players[0].cardCount);
+    console.log(game.players[1].cardCount)
+    clearTimeout(overallWinner);
+    roundStatus.textContent = "";
+    updateCardCount(game.players[0], game.players[1]);
     game = new Game();
-}
-
-
-let game = new Game();
-
-
-
-////////////////////////////////// TESTING PURPOSES ////////////////////////////////////
-let flag = true;
-while(flag) {
-    game.playWar()
-    if (game.players[0].cardCount === 0 || game.players[1].cardCount === 0) {
-        flag = false;
-        console.log('final count p1', game.players[0].cardCount);
-        console.log('final count p2', game.players[1].cardCount);
-    }
 }
 
 function convertNumIntoSuite(value) {
@@ -339,3 +333,19 @@ function convertNumIntoSuite(value) {
         return value;
     }
 }
+
+let game = new Game();
+
+
+
+////////////////////////////////// TESTING PURPOSES ////////////////////////////////////
+let flag = true;
+while(flag) {
+    game.playWar()
+    if (game.players[0].cardCount === 0 || game.players[1].cardCount === 0) {
+        flag = false;
+        console.log('final count p1', game.players[0].cardCount);
+        console.log('final count p2', game.players[1].cardCount);
+    }
+}
+

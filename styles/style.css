@@ -36,7 +36,7 @@ body {
 }
 
 .btn-outline-primary:focus {
-    box-shadow: darkslateblue 0px 54px 55px, darkslateblue 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    box-shadow: darkslateblue 0px 15px 55px, darkslateblue 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     border-color: darkslateblue;
     outline: 0 none;
 }
@@ -149,7 +149,7 @@ h3 {
 
 .tie-pot-title {
     font-family: 'Special Elite', cursive;
-    margin-top: 5rem;
+    margin-top: 4rem;
 }
 
 .tie-pot {

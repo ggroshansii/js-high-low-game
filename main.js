@@ -323,13 +323,15 @@ let game = new Game();
 
 
 ////////////////////////////////// TESTING PURPOSES ////////////////////////////////////
-let flag = true;
-while(flag) {
-    game.playWar()
-    if (game.players[0].cardCount === 0 || game.players[1].cardCount === 0) {
-        flag = false;
-        console.log('final count p1', game.players[0].cardCount);
-        console.log('final count p2', game.players[1].cardCount);
-    }
-}
+
+
+// let flag = true;
+// while(flag) {
+//     game.playWar()
+//     if (game.players[0].cardCount === 0 || game.players[1].cardCount === 0) {
+//         flag = false;
+//         console.log('final count p1', game.players[0].cardCount);
+//         console.log('final count p2', game.players[1].cardCount);
+//     }
+// }
 

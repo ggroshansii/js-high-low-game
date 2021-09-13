@@ -120,11 +120,6 @@ Game.prototype.playWar = function () {
     let player1Card = this.players[0].playCard();
     let player2Card = this.players[1].playCard();
 
-    // if (player1.cardCount === 0 || player2.cardCount === 0) {
-    //     updateCardCount(player1, player2);
-    //     return gameOver(player1);
-    // }
-
     if (player1Card.value > player2Card.value) {
 
         toggleColor(player1Card, player2Card);
@@ -188,10 +183,6 @@ Game.prototype.playWar = function () {
             this.players[0].tieRoundAnte();
             this.players[1].tieRoundAnte();
             
-            // if (!this.players[0].cardCount || !this.players[1].cardCount) {
-            //     return this.gameOver();
-            // }
-
             tieRoundPotOfCards.push(player1Card);
             tieRoundPotOfCards.push(player2Card);
         } else {
@@ -220,15 +211,10 @@ Game.prototype.playWar = function () {
     }
 
     
-    // if (!this.players[0].cardCount || !this.players[1].cardCount) {
-    //     updateCardCount(player1, player2);
-    //     return gameOver(player1);
-    // }
 };
 
 let overallWinner; 
 function gameOver(player1) {
-    //gameOn = false;
     overallWinner = setTimeout(() => { 
         if (player1.cardCount) {
             roundStatus.textContent = "YOU WON THE GAME";
@@ -309,13 +295,12 @@ function resetGame() {
     title.style.fontFamily = 'Press Start 2P';
     title.style.fontSize = "3.5rem";
     title.style.color = "darkslateblue";
-    game.players[0].cardCount = 0;
-    game.players[1].cardCount = 0;
-    console.log(game.players[0].cardCount);
-    console.log(game.players[1].cardCount)
     clearTimeout(overallWinner);
     roundStatus.textContent = "";
-    updateCardCount(game.players[0], game.players[1]);
+    playerCardText.textContent = "";
+    computerCardText.textContent = "";
+    playerCardCount.textContent = "";
+    computerCardCount.textContent = "";
     game = new Game();
 }
 
@@ -335,7 +320,6 @@ function convertNumIntoSuite(value) {
 }
 
 let game = new Game();
-
 
 
 ////////////////////////////////// TESTING PURPOSES ////////////////////////////////////

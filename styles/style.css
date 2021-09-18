@@ -5,11 +5,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@1,500&display=swap');
 
+
 body {
     background-image: url("http://cdn.shopify.com/s/files/1/0062/7892/products/7850-beigewood_5dfac83c-12c7-4923-b317-5613f0bceb17.png?v=1536860968");
     background-repeat: no-repeat;
     background-size: cover;
     padding-top: 1rem;
+    max-width: 1125px;
+    margin: auto;
+    height: 100vh;
 }
 
 .container {
@@ -22,7 +26,7 @@ body {
     width: 12rem;
     border-width: 0.2rem;
     font-size: 1.4rem;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 
 .btn-outline-primary {
@@ -53,11 +57,10 @@ body {
 
 
 .left-deck, .right-deck {
-    width: 20rem
+    width: 17rem
 }
 
 .player-card, .computer-card {
-
     width: 50%;
 }
 
@@ -74,19 +77,23 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    
     width: 100%;
     margin-top: 2rem;
 }
 
 .card-count-container{
     display: flex;
-    padding-left: 2.6rem;
+    padding-left: 1.8rem;
     font-family: 'Special Elite';
+}
 
+.media-count {
+    display: none;
 }
 
 .card-count-container > h3 {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
 }
 
 .middle-div {
@@ -94,7 +101,11 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100%;
+    height: 100vh;
+}
+
+.middle-div h1 {
+    padding-top: 0;
 }
 
 
@@ -106,7 +117,7 @@ img {
 
 h1, h2 {
     text-align: center;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 h1 {
@@ -120,16 +131,12 @@ h2 {
 
 }
 
-h3 {
-
-}
-
 .first-row {
     height: 50rem;
 }
 
 .title-row {
-    height: 9rem;
+    height: 7rem;
     text-align: center;
 }
 
@@ -138,33 +145,127 @@ h3 {
     font-family: 'Press Start 2P', cursive;
     color: darkslateblue;
     font-weight: 900;
-    font-size: 3.5rem;
+    font-size: 3rem;
+    margin-bottom: 0;
 }
 
-.computer-card-count, .player-card-count {
+.computer-card-count, .player-card-count, .media-count {
     text-align: left;
     padding-left: 0.5rem;
     font-size: 2rem;
+    font-weight: 900;
 }
 
 .tie-pot-title {
     font-family: 'Special Elite', cursive;
-    margin-top: 4rem;
+    margin-top: 2.5rem;
 }
 
 .tie-pot {
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
 }
 
 .round-status {
     color: darkslateblue;
     font-family: 'bitter';
-    margin-top: 2rem;
+    margin-top: 1.8rem;
     text-align: center;
-    font-size: 2.2rem;
+    font-size: 2rem;
 
 }
 
 .red {
     color: red;
+}
+
+@media screen and (max-width: 1000px) {
+    .media-count {
+        display: block;
+    }
+
+    .right-deck {
+        display: none;
+    }
+    .left-deck{
+        margin-top: 1rem;
+        width: 18rem;
+    }
+
+    .title-row {
+        height: 5rem;
+        margin-top: 0;
+        padding: 0;
+    }
+
+    .title-row h1 {
+        font-size: 3rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+
+    .middle-div h1{
+        margin-top: 0;
+        padding-top: 0;
+    }
+    .btn {
+        margin-top: 1rem;
+        height: 4rem;
+        width: 10rem;
+        font-size: 1rem;
+    }
+
+    .tie-pot-title {
+        margin-top: 2rem;
+    }
+    .round-status {
+        margin-top: 0.5rem;
+        font-size: 1.5rem;
+    }
+    .player-card-text, .computer-card-text {
+        font-size: 1.1rem;
+    }
+    .card-selections h1 {
+        font-size: 2.25rem;
+    }
+    .tie-pot-title {
+        font-size: 1.25rem;
+    }
+    .tie-pot {
+        font-size: 1.25rem;
+    }
+     .player-card-count {
+        text-align: left;
+        padding-left: 2.2rem;
+        font-size: 2rem;
+    }
+}
+
+@media screen and (max-width: 776px) {
+    .title-row h1 {
+        font-size: 2rem;
+    }
+    .left-deck img {
+        display: none;
+    }
+    .left-deck {
+        width: 100%;
+        height: 3rem;
+    }
+    .right-deck {
+        height: 0rem;
+    }
+    .mobile-scoreboard {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        width: 100%;
+
+        text-align: center;
+    }
+    .card-count-container {
+        width: 100%;
+        text-align: center;
+        margin: auto;
+    }
 }

@@ -3,6 +3,7 @@ const playerCardText = document.querySelector(".player-card-text");
 const computerCardText = document.querySelector(".computer-card-text");
 const playerCardCount = document.querySelector(".player-card-count");
 const computerCardCount = document.querySelector(".computer-card-count");
+const mediaComputerCardCount = document.querySelector(".media-count");
 const wholeDocument = document.querySelector("body");
 const images = document.querySelectorAll('img');
 const title = document.querySelector('.title');
@@ -264,6 +265,7 @@ function toggleColor(player1, player2) {
 function updateCardCount(player1, player2) {
     playerCardCount.textContent = `${player1.cardCount}`;
     computerCardCount.textContent = `${player2.cardCount}`;
+    mediaComputerCardCount.textContent = `${player2.cardCount}`;
 }
 
 
@@ -301,6 +303,7 @@ function resetGame() {
     computerCardText.textContent = "";
     playerCardCount.textContent = "";
     computerCardCount.textContent = "";
+    mediaComputerCardCount.textContent = "";
     game = new Game();
 }
 

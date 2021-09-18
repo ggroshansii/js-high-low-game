@@ -243,29 +243,59 @@ h2 {
 
 @media screen and (max-width: 776px) {
     .title-row h1 {
-        font-size: 2rem;
+        font-size: 1.6rem;
     }
     .left-deck img {
         display: none;
     }
     .left-deck {
         width: 100%;
-        height: 3rem;
+        height: 1rem;
     }
     .right-deck {
         height: 0rem;
     }
     .mobile-scoreboard {
         display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
+        justify-content: center;
         width: 100%;
-
-        text-align: center;
     }
     .card-count-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         width: 100%;
         text-align: center;
-        margin: auto;
+        padding: 0;
+    }
+    .player-card-text, .computer-card-text {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-top: 1rem;
+    }
+    .player-card-count, .media-count {
+        text-align: left;
+        font-size: 2rem;
+        padding: 0;
+        color: darkslateblue;
+    }
+    .middle-div h1 {
+        display: none;
+    }
+    .round-status {
+        margin-top: 2rem;
+        font-size: 1.5rem;
+    }
+
+    .tie-pot-title {
+        font-size: 1.25rem;
+        margin-top: 3.5rem;
+    }
+    .tie-pot {
+        font-size: 1.25rem;
+    }
+    .btn {
+        margin-top: 2.5rem;
     }
 }
